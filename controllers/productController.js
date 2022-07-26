@@ -105,7 +105,6 @@ const product_update = (req, res) => {
         .catch(err => {
             res.json({ status: 400, data: { msg: err.message } });
         });
-
 }
 
 
