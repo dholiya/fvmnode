@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+
 const locationRoutes = require('./routes/locationRoutes');
 const bidRoutes = require('./routes/bidRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -14,8 +15,8 @@ const path = require('path');
 
 // express app
 const app = express();
-
-mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: true })
+const url =  process.env.URL;
+ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => app.listen(3000))
   .catch(err => console.log(err));
 
