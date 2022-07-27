@@ -15,9 +15,10 @@ const path = require('path');
 
 // express app
 const app = express();
-var url =  process.env.URL;
+const url =  process.env.URL;
+const port =  process.env.PORT ;
  mongoose.connect('mongodb+srv://fvm123:fvm123@clustefvm.feorkeu.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(result => app.listen(3000))
+  .then(result => app.listen(port))
   .catch(err => console.log(err));
 // register view engine
 app.set('view engine', 'ejs');
