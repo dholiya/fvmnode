@@ -15,7 +15,7 @@ const path = require('path');
 
 // express app
 const app = express();
-const url =  process.env.URL;
+var url =  process.env.URL;
  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => app.listen(3000))
   .catch(err => console.log(err));
