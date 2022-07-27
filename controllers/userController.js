@@ -16,7 +16,7 @@ const users = (req, res) => {
 
 const user_login = (req, res) => {
 
-  res.set({ contestType: Util.multipartFormData})
+  // res.set({ contestType: Util.multipartFormData})
 
   User.findOne(req.body).then(result => {
     if(result != null){
@@ -25,10 +25,10 @@ const user_login = (req, res) => {
 
       res.json({status : 200 , accessToken : accessToken , data: result});
     } else
-      res.json({status : 300 , data: { msg: "Wrong email or/and passowrd" }});
+      res.json({status : 300 ,  msg: "Wrong email or/and passowrd" });
     })
     .catch(err => {
-      res.json({status : 400 , data: {msg: err.message}});
+      res.json({status : 400 , msg: err.message});
     });    
 }
 
@@ -41,7 +41,7 @@ const user_register = (req, res) => {
           res.json({ status: 200, data: result });
       })
       .catch(err => {
-          res.json({ status: 400, data: { msg: err.message } })
+          res.json({ status: 400, msg: err.message  })
           console.log(err);
       });
 
@@ -54,12 +54,12 @@ const user_delete = (req, res) => {
   User.findByIdAndDelete(req.body.id)
     .then(result => {
       if(result != null)
-        res.json({status : 200 , data: { msg: 'User deleted successfully', _id :req.body.id  }});
+        res.json({status : 200 ,  msg: 'User deleted successfully'});
       else
-        res.json({status : 300 , data: { msg: 'User not found', _id :req.body.id }});
+        res.json({status : 300 ,  msg: 'User not found'});
     })
     .catch(err => {
-      res.json({status : 400 , data: { msg: err.message, _id :req.body.id }});
+      res.json({status : 400, msg: err.message});
       console.log(err);
     });
 }
@@ -73,11 +73,11 @@ const user_update_password = (req, res) => {
 
   User.findByIdAndUpdate( req.body.id, { password: req.body.password}, {useFindAndModify: false})
     .then(result => {
-      result!=null?res.json({status : 200 , data: { msg: 'Password reset successfully'}}):
-      res.json({status : 300 , data: { msg: 'User not found'}});
+      result!=null?res.json({status : 200 , msg: 'Password reset successfully'}):
+      res.json({status : 300 , msg: 'User not found'});
     })
     .catch(err => {
-      res.json({status : 400 , data: { msg: 'Password not reset please contact customer care advisor'}});
+      res.json({status : 400, msg: 'Password not reset please contact customer care advisor' });
       console.log(err);
     });
 }

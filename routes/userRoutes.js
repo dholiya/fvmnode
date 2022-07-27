@@ -3,6 +3,9 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
+require('dotenv').config()
+const jwt = require('jsonwebtoken')
+
 router.get('/all', userController.users);
 router.post('/',  userController.user_register);
 router.get('/', userController.user_login);

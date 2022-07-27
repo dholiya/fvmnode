@@ -10,7 +10,7 @@ const bid_add = (req, res) => {
             res.json({ status: 200, data: result });
         })
         .catch(err => {
-            res.json({ status: 400, data: { msg: err.message } })
+            res.json({ status: 400, msg: err.message })
             console.log(err);
         });
 }
@@ -22,11 +22,11 @@ const bids = (req, res,) => {
             if (result != null && result.length != 0) {
                 res.json({ status: 200, data: result });
             } else {
-                res.json({ status: 300, data: { msg: "No bid found" } });
+                res.json({ status: 300, msg: "No bid found" });
             }
         })
         .catch(err => {
-            res.json({ status: 400, data: { msg: err.message } });
+            res.json({ status: 400, msg: err.message  });
         });
 }
 
@@ -38,11 +38,11 @@ const bid_by_ID = (req, res) => {
             if (result != null && result.length != 0) {
                 res.json({ status: 200, data: result });
             } else {
-                res.json({ status: 300, data: { msg: "No bid found with given ID" } });
+                res.json({ status: 300, msg: "No bid found with given ID" });
             }
         })
         .catch(err => {
-            res.json({ status: 400, data: { msg: err.message } });
+            res.json({ status: 400, msg: err.message });
         });
 
 };
@@ -53,13 +53,13 @@ const bid_delete = (req, res) => {
     Bid.findByIdAndDelete(req.params.id)
         .then(result => {
             if (result != null)
-                res.json({ status: 200, data: { msg: 'Bid deleted successfully', _id: req.params.id } });
+                res.json({ status: 200,  msg: 'Bid deleted successfully'});
             else
-            res.json({ status: 300, data: { msg: "No bid found", _id: req.params.id } });
+            res.json({ status: 300, msg: "No bid found"});
 
         })
         .catch(err => {
-            res.json({ status: 400, data: { msg: err.message, _id: req.params.id } });
+            res.json({ status: 400,  msg: err.message});
             console.log(err);
         });
 }

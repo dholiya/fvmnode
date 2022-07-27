@@ -11,13 +11,17 @@ const productRoutes = require('./routes/productRoutes');
 // const formidable = require('express-formidable');
 var bodyParser = require('body-parser')
 const path = require('path');
+
 // https://www.youtube.com/watch?v=mbsmsi7l3r4
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
 
 // express app
 const app = express();
 const url =  process.env.URL;
 const port =  process.env.PORT ;
- mongoose.connect('mongodb+srv://fvm123:fvm123@clustefvm.feorkeu.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+const db =  process.env.DB ;
+mongoose.connect(url,
+  { useNewUrlParser: true, useUnifiedTopology: true, dbName: db })
   .then(result => app.listen(port))
   .catch(err => console.log(err));
 // register view engine
@@ -52,10 +56,10 @@ app.use((req, res, next) => {
 // });
 
 
-app.use('/location', locationRoutes);
-app.use('/bid', bidRoutes);
-app.use('/user', userRoutes);
-app.use('/product', productRoutes);
+app.use('/api/location', locationRoutes);
+app.use('/api/bid', bidRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/product', productRoutes);
 
 
 // 404 page
