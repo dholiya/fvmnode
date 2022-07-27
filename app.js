@@ -16,7 +16,7 @@ const path = require('path');
 // express app
 const app = express();
 var url =  process.env.URL;
- mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+ mongoose.connect('mongodb+srv://fvm123:fvm123@clustefvm.feorkeu.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => app.listen(3000))
   .catch(err => console.log(err));
 
