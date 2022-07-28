@@ -1,5 +1,4 @@
 const express = require('express');
-const morgan = require('morgan');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -9,6 +8,7 @@ const bidRoutes = require('./routes/bidRoutes');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 // const formidable = require('express-formidable');
+
 var bodyParser = require('body-parser')
 const path = require('path');
 
@@ -17,17 +17,18 @@ const path = require('path');
 
 // express app
 const app = express();
+
 const url =  process.env.URL;
 const port =  process.env.PORT ;
-const db =  process.env.DB ;
-mongoose.connect(url,
-  { useNewUrlParser: true, useUnifiedTopology: true, dbName: db })
+const db =  process.env.DB;
+
+
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, dbName: db })
   .then(result => app.listen(port))
   .catch(err => console.log(err));
 // register view engine
 app.set('view engine', 'ejs');
 
-// app.use(formidable());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

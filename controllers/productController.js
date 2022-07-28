@@ -111,7 +111,7 @@ const product_delete = (req, res) => {
 
     Product.findByIdAndDelete(req.params.id)
         .then(result => {
-            if (result != null)
+            if (result != null && result.length != 0) 
                 res.json({ status: 200, msg: 'Product deleted successfully'});
             else
                 res.json({ status: 300, msg: 'Product not found'});

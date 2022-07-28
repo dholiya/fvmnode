@@ -51,7 +51,9 @@ const location_by_ID = (req, res) => {
 const location_update = (req, res) => {
     Location.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false })
         .then(result => {
-            result != null ? res.json({ status: 200, msg: 'Location data updated successfully'  }) :
+            if (result != null && result.length != 0) 
+                res.json({ status: 200, msg: 'Location data updated successfully'  }) 
+            else
                 res.json({ status: 300, msg: 'Something went wrong, please contact customer advisor' });
         })
         .catch(err => {
@@ -65,7 +67,7 @@ const location_delete = (req, res) => {
 
     Location.findByIdAndDelete(req.params.id)
         .then(result => {
-            if (result != null)
+            if (result != null && result.length != 0) 
                 res.json({ status: 200, msg: 'Location deleted successfully' });
             else
                 res.json({ status: 300,  msg: 'Location not found' });
