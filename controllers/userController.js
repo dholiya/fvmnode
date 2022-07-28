@@ -75,7 +75,7 @@ const user_delete = (req, res) => {
 const user_sendOTP = (req, res) => {
   User.findOne(req.body).then(result => {
     if (result != null && result.length != 0) {
-      mailHandler(function (returnData, bl) {
+      mailHandler(req.body.email,function (bl) {
         if (bl)
           res.json({ status: 200, msg: 'Please check your email for OTP' })
         else
@@ -112,7 +112,7 @@ const user_update_password = async (req, res) => {
 }
 
 
-async function mailHandler(returnData) {
+async function mailHandler(email, sreturnData) {
   OTP = Math.floor(100000 + Math.random() * 900000);
 
   var transporter = nodemailer.createTransport(smtpTransport({
@@ -126,7 +126,7 @@ async function mailHandler(returnData) {
 
   var mailOptions = {
     from: process.env.EMAIL,
-    to: 'krunaldholiya1750@gmail.com',
+    to: email,
     subject: 'FVM verification',
     html: "<center>Your verification code for FVM : <h2>" + OTP + "</h2><center>"
   };
@@ -134,9 +134,9 @@ async function mailHandler(returnData) {
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
-      return returnData(000000, false);
+      return returnData(false);
     } else {
-      return returnData(OTP, true);
+      return returnData(true);
     }
   });
 }
