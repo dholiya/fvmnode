@@ -23,7 +23,6 @@ const users = (req, res) => {
 
 const user_login = (req, res) => {
 
-
   User.findOne(req.body).then(result => {
     if (result != null && result.length != 0) {
 
@@ -97,7 +96,7 @@ const user_sendOTP = (req, res) => {
       res.json({ status: 300, msg: "No user found with given mail: " + req.body.email });
   })
     .catch(err => {
-      res.json({ status: 400, msg: err.message });
+      res.json({ status: 400, msg: "Error : "+ err.message });
     });
 }
 
@@ -124,7 +123,7 @@ const user_update_password = async (req, res) => {
 }
 
 
-async function mailHandler(email, sreturnData) {
+async function mailHandler(email, returnData) {
   OTP = Math.floor(100000 + Math.random() * 900000);
 
   var transporter = nodemailer.createTransport(smtpTransport({
