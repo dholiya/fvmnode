@@ -42,25 +42,16 @@ app.use((req, res, next) => {
 });
 
 
-// app.use((req, res, next) => {
-//   res.locals.path = req.path;
-//   next();
-// });
-
-// routes
-// app.get('/', (req, res) => {
-//   res.redirect('/user');
-// });
-
-// app.get('/about', (req, res) => {
-//   res.render('about', { title: 'About' });
-// });
-
 
 app.use('/api/location', locationRoutes);
 app.use('/api/bid', bidRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
+
+
+app.get('/', (req, res) => {
+  res.render('index', { title: 'FVM' });
+});
 
 
 // 404 page

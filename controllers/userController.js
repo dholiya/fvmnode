@@ -23,7 +23,6 @@ const users = (req, res) => {
 
 const user_login = (req, res) => {
 
-  // res.set({ contestType: Util.multipartFormData})
 
   User.findOne(req.body).then(result => {
     if (result != null && result.length != 0) {
@@ -42,15 +41,28 @@ const user_login = (req, res) => {
 
 
 const user_register = (req, res) => {
+
   const user = new User(req.body);
-  user.save()
-    .then(result => {
-      res.json({ status: 200, data: result });
-    })
+
+  User.findOne({email: req.body.email}).then(result => {
+    if (result != null && result.length != 0) {
+      res.json({ status: 300, msg: "This email is already in use" });
+    } else {
+      user.save()
+        .then(result => {
+          res.json({ status: 200, data: result });
+        })
+        .catch(err => {
+          res.json({ status: 400, msg: err.message })
+          console.log(err);
+        });
+    }
+  })
     .catch(err => {
-      res.json({ status: 400, msg: err.message })
-      console.log(err);
+      res.json({ status: 400, msg: err.message });
     });
+
+
 
 }
 
@@ -75,7 +87,7 @@ const user_delete = (req, res) => {
 const user_sendOTP = (req, res) => {
   User.findOne(req.body).then(result => {
     if (result != null && result.length != 0) {
-      mailHandler(req.body.email,function (bl) {
+      mailHandler(req.body.email, function (bl) {
         if (bl)
           res.json({ status: 200, msg: 'Please check your email for OTP' })
         else

@@ -96,7 +96,7 @@ const product_update = (req, res) => {
                     res.json({ status: 300, msg: "You don't have permission to edit this products"  });
                 }
             } else {
-                res.json({ status: 300, data: { msg: "No product found with given ID" } });
+                res.json({ status: 300, msg: "No product found with given ID" });
             }
         })
         .catch(err => {
