@@ -11,6 +11,8 @@ const readFile = promisify(fs.readFile);
 let OTP = 000000;
 
 const users = (req, res) => {
+  console.log("users");
+
   User.find().sort({ createdAt: -1 })
     .then(result => {
       res.send(result)
@@ -23,14 +25,19 @@ const users = (req, res) => {
 
 const user_login = (req, res) => {
 
-  User.findOne(req.body).then(result => {
+  User.findOne({ email: req.body.email }).then(result => {
     if (result != null && result.length != 0) {
+      
 
+      if (req.body.password != result.password) {
+        res.json({ status: 300, msg: "Wrong email or/and passowrd" });
+        return;
+      }
       const accessToken = jwt.sign(result.id, process.env.ACCESS_TOKEN_SECRET);
 
       res.json({ status: 200, accessToken: accessToken, data: result });
     } else
-      res.json({ status: 300, msg: "Wrong email or/and passowrd" });
+      res.json({ status: 300, msg: "No user found with give email" });
   })
     .catch(err => {
       res.json({ status: 400, msg: err.message });
@@ -40,10 +47,11 @@ const user_login = (req, res) => {
 
 
 const user_register = (req, res) => {
+  console.log("Register");
 
   const user = new User(req.body);
 
-  User.findOne({email: req.body.email}).then(result => {
+  User.findOne({ email: req.body.email }).then(result => {
     if (result != null && result.length != 0) {
       res.json({ status: 300, msg: "This email is already in use" });
     } else {
@@ -68,6 +76,7 @@ const user_register = (req, res) => {
 
 
 const user_delete = (req, res) => {
+  console.log("delete");
 
   User.findByIdAndDelete(req.body.id)
     .then(result => {
@@ -84,6 +93,8 @@ const user_delete = (req, res) => {
 
 
 const user_sendOTP = (req, res) => {
+  console.log("sendotp");
+
   User.findOne(req.body).then(result => {
     if (result != null && result.length != 0) {
       mailHandler(req.body.email, function (bl) {
@@ -96,12 +107,13 @@ const user_sendOTP = (req, res) => {
       res.json({ status: 300, msg: "No user found with given mail: " + req.body.email });
   })
     .catch(err => {
-      res.json({ status: 400, msg: "Error : "+ err.message });
+      res.json({ status: 400, msg: "Error : " + err.message });
     });
 }
 
 
 const user_update_password = async (req, res) => {
+  console.log("updatepassword");
 
   if (req.body.otp == OTP)
     User.findOneAndUpdate(req.body.email, { password: req.body.password }, { useFindAndModify: false })
