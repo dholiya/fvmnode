@@ -19,7 +19,7 @@ const product_add = (req, res) => {
 
     product.save()
         .then(result => {
-            res.json({ status: 200, data: result });
+            res.json({ status: 200, msg: "Product added successfully"});
         })
         .catch(err => {
             res.json({ status: 400, msg: err.message })
@@ -31,7 +31,7 @@ const seller_products = (req, res) => {
     Product.find({ seller_id: req.body.seller_id }).sort({ createdAt: -1 })
         .then(result => {
             if (result != null && result.length != 0) {
-                res.json({ status: 200, data: result });
+                res.json({ status: 200,  data: result });
             } else {
                 res.json({ status: 300, msg: "No product found"  });
             }
