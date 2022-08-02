@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { timeStamp } = require('console'); 
 
-const productSchema = new mongoose.Schema({
+const locationSchema = new mongoose.Schema({
     unit_number: {type: Number , required:true},
     street_name: {type: String , required:true},
     city: { type: String, require: true},
@@ -10,5 +10,5 @@ const productSchema = new mongoose.Schema({
     country: {type: String, required:true},  
 },{ timestamps: true });
 
-const product = mongoose.model("location", productSchema);
-module.exports = product;
+const location = mongoose.model("location", locationSchema);
+module.exports = location;
