@@ -8,7 +8,7 @@ require('dotenv').config()
 const jwt = require('jsonwebtoken')
 
 router.get('/', authenticateToken, productController.products);
-router.get('/seller', authenticateToken, productController.seller_products);
+router.get('/seller/:id', authenticateToken, productController.seller_products);
 
 router.post('/', authenticateToken, upload, productController.product_add);
 router.get('/:id',authenticateToken, productController.product_by_ID);

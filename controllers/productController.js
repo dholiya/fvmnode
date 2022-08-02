@@ -28,7 +28,7 @@ const product_add = (req, res) => {
 }
 
 const seller_products = (req, res) => {
-    Product.find({ seller_id: req.body.seller_id }).sort({ createdAt: -1 })
+    Product.find({ seller_id: req.params.id }).sort({ createdAt: -1 })
         .then(result => {
             if (result != null && result.length != 0) {
                 res.json({ status: 200,  data: result });
