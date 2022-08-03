@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema({
     current_highest_bid: {type: Number , required:true},
     buyer_id: {type: String, required:false},
     seller_id: {type: String, required:true},
-    bids: {type: String, required:true},
+    bids: {type: Number, required:true},
 },{ timestamps: true });
 
 const product = mongoose.model("product", productSchema);
