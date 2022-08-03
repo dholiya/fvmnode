@@ -28,7 +28,6 @@ const user_login = (req, res) => {
   User.findOne({ email: req.body.email }).then(result => {
     if (result != null && result.length != 0) {
       
-
       if (req.body.password != result.password) {
         res.json({ status: 300, msg: "Wrong email or/and passowrd" });
         return;
