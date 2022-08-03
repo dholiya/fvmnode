@@ -7,6 +7,7 @@ const locationRoutes = require('./routes/locationRoutes');
 const bidRoutes = require('./routes/bidRoutes');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
+const favoriteRoutes = require('./routes/favoriteRoutes');
 // const formidable = require('express-formidable');
 
 var bodyParser = require('body-parser')
@@ -47,6 +48,7 @@ app.use('/api/location', locationRoutes);
 app.use('/api/bid', bidRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
+app.use('/api/favorite', favoriteRoutes);
 
 
 app.get('/', (req, res) => {
