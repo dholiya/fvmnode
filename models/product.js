@@ -13,6 +13,7 @@ const productSchema = new mongoose.Schema({
     bid_end_date: {type: String, required:true},  
     current_highest_bid: {type: Number , required:true},
     buyer_id: {type: String, required:false},
+    buyer_email: {type: String, required:false},
     seller_id: {type: String, required:true},
     bids: {type: Number, required:true},
 },{ timestamps: true });

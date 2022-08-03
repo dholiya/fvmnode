@@ -64,9 +64,27 @@ const bid_delete = (req, res) => {
         });
 }
 
+
+const bid_find_buyer = (req, res) => {
+
+    console.log(req);
+
+    Bid.findOne({ product_id: req.body.product_id, bid_amount: req.body.bid_amount }).then(result => {
+      if (result != null && result.length != 0) {
+        res.json({ status: 200, data: result });
+      } else
+        res.json({ status: 300, msg: "No buyer found, please list your product again" });
+    })
+      .catch(err => {
+        res.json({ status: 400, msg: err.message });
+      });
+  }
+  
+  
 module.exports = {
     bid_add,
     bids,
     bid_by_ID,
-    bid_delete
+    bid_delete,
+    bid_find_buyer
 };

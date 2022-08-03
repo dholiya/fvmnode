@@ -6,6 +6,7 @@ const router = express.Router();
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
 
+router.get('/buyer',authenticateToken, bidController.bid_find_buyer);
 router.get('/all',authenticateToken, bidController.bids);
 router.get('/:id',authenticateToken, bidController.bid_by_ID);
 router.post('/',authenticateToken, bidController.bid_add);
