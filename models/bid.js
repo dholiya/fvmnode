@@ -6,6 +6,7 @@ const bidSchema = new mongoose.Schema({
     user_id: {type: String , required:true},
     bid_date: {type: String , required:true},
     bid_amount: {type: Number, required:true},
+    email: {type: Number, required:true},
 },{ timestamps: true });
 
 const bid = mongoose.model("bid", bidSchema);
