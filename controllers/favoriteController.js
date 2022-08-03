@@ -16,12 +16,11 @@ const favorite_add = (req, res) => {
 }
 
 
-
 const favorite_by_seller = (req, res) => {
     Favorite.find({ seller_id : req.params.id })
         .then(result => {
             if (result != null && result.length != 0) {
-                res.json({ status: 200, data: result });
+                res.json({ status: 200, msg:"Product added in favorite successfully" });
             } else {
                 res.json({ status: 300, msg: "No favorite found with given ID" });
             }
