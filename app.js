@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
+var http = require("http");
 
 
 const locationRoutes = require('./routes/locationRoutes');
@@ -49,6 +50,12 @@ app.use('/api/bid', bidRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/favorite', favoriteRoutes);
+
+
+setInterval(function() {
+   console.log("it worked");
+    http.get("http://fvmnode.herokuapp.com");
+}, 900000); // every 5 minutes (300000)
 
 
 app.get('/', (req, res) => {
