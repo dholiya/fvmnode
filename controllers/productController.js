@@ -17,9 +17,11 @@ const product_add = (req, res) => {
         product.images[i] = file.path
     })
 
+    console.log(req.body)
+
     product.save()
         .then(result => {
-            res.json({ status: 200, msg: "Product added successfully"});
+            res.json({ status: 200, msg: "Product added successfully" });
         })
         .catch(err => {
             res.json({ status: 400, msg: err.message })
@@ -31,9 +33,9 @@ const seller_products = (req, res) => {
     Product.find({ seller_id: req.params.id }).sort({ createdAt: -1 })
         .then(result => {
             if (result != null && result.length != 0) {
-                res.json({ status: 200,  data: result });
+                res.json({ status: 200, data: result });
             } else {
-                res.json({ status: 300, msg: "No product found"  });
+                res.json({ status: 300, msg: "No product found" });
             }
         })
         .catch(err => {
@@ -66,7 +68,7 @@ const product_by_ID = (req, res) => {
             if (result != null && result.length != 0) {
                 res.json({ status: 200, data: result });
             } else {
-                res.json({ status: 300, msg: "No product found with given ID"  });
+                res.json({ status: 300, msg: "No product found with given ID" });
             }
         })
         .catch(err => {
@@ -80,10 +82,24 @@ const product_update = (req, res) => {
 
     Product.findOne({ _id: req.params.id })
         .then(result => {
-            console.log(result);
             if (result != null && result.length != 0) {
                 if (result.seller_id == req.body.seller_id) {
-                   
+
+
+                    if (req.body.favorite_by != undefined) {
+                        result.favorite_by.push(req.body.favorite_by)
+                        req.body = { favorite_by: result.favorite_by };
+                    }
+                    ///continue : 
+                    //check condition if contain then remove not then
+                    // android model, check user id in favoriteby in home page,  
+
+                    if (req.body.tag != undefined) {
+                        result.tag.push(req.body.tag)
+                        req.body = { tag: result.tag };
+                    }
+
+
                     Product.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false })
                         .then(result => {
                             result != null ? res.json({ status: 200, msg: 'Product data updated successfully', data: result }) :
@@ -92,8 +108,9 @@ const product_update = (req, res) => {
                         .catch(err => {
                             res.json({ status: 300, msg: 'Something wrong to update product data' });
                         });
+
                 } else {
-                    res.json({ status: 300, msg: "You don't have permission to edit this products"  });
+                    res.json({ status: 300, msg: "You don't have permission to edit this products" });
                 }
             } else {
                 res.json({ status: 300, msg: "No product found with given ID" });
@@ -111,13 +128,13 @@ const product_delete = (req, res) => {
 
     Product.findByIdAndDelete(req.params.id)
         .then(result => {
-            if (result != null && result.length != 0) 
-                res.json({ status: 200, msg: 'Product deleted successfully'});
+            if (result != null && result.length != 0)
+                res.json({ status: 200, msg: 'Product deleted successfully' });
             else
-                res.json({ status: 300, msg: 'Product not found'});
+                res.json({ status: 300, msg: 'Product not found' });
         })
         .catch(err => {
-            res.json({ status: 400,msg: err.message });
+            res.json({ status: 400, msg: err.message });
             console.log(err);
         });
 }

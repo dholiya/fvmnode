@@ -73,7 +73,7 @@ const bid_find_buyer = (req, res) => {
       if (result != null && result.length != 0) {
         res.json({ status: 200, data: result });
       } else
-        res.json({ status: 300, msg: "No buyer found, please list your product again" });
+        res.json({ status: 300, msg: "No bid found" });
     })
       .catch(err => {
         res.json({ status: 400, msg: err.message });

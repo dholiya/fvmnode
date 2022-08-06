@@ -16,6 +16,7 @@ const productSchema = new mongoose.Schema({
     buyer_email: {type: String, required:false},
     seller_id: {type: String, required:true},
     bids: {type: Number, required:true},
+    favorite_by: [{ type: String, require: false}],
 },{ timestamps: true });
 
 const product = mongoose.model("product", productSchema);
