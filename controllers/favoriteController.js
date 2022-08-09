@@ -17,7 +17,7 @@ const favorite_add = (req, res) => {
 
 
 const favorite_by_seller = (req, res) => {
-    Favorite.find({ seller_id : req.params.id })
+    Favorite.find({ user_id : req.params.id })
         .then(result => {
             if (result != null && result.length != 0) {
                 res.json({ status: 200, data: result });

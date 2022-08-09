@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { timeStamp } = require('console'); 
 
 const favoriteSchema = new mongoose.Schema({
-    seller_id: {type: String , required:true},
+    user_id: {type: String , required:true},
     product_id: {type: String , required:true},
 },{ timestamps: true });
 

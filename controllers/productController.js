@@ -80,6 +80,9 @@ const product_by_ID = (req, res) => {
 
 const product_update = (req, res) => {
 
+    var favFlag = 0; //0 = no update in fav, 1 = added, 2 = remove 
+    var tagFlag = false;
+
     Product.findOne({ _id: req.params.id })
         .then(result => {
             if (result != null && result.length != 0) {
@@ -87,22 +90,51 @@ const product_update = (req, res) => {
 
 
                     if (req.body.favorite_by != undefined) {
-                        result.favorite_by.push(req.body.favorite_by)
-                        req.body = { favorite_by: result.favorite_by };
+                        if (result.favorite_by.includes(req.body.favorite_by)) {
+                            console.log("remove");
+                            favFlag = 2;
+                            result.favorite_by.remove(req.body.favorite_by);
+                            req.body = { favorite_by: result.favorite_by };
+                        } else {
+                            favFlag = 1;
+                            console.log("Added");
+                            result.favorite_by.push(req.body.favorite_by)
+                            req.body = { favorite_by: result.favorite_by };
+                        }
                     }
+
+
                     ///continue : 
-                    //check condition if contain then remove not then
-                    // android model, check user id in favoriteby in home page,  
+                   // android model, check user id in favoriteby in home page,  
+
+                    var arr = new Array();
 
                     if (req.body.tag != undefined) {
-                        result.tag.push(req.body.tag)
-                        req.body = { tag: result.tag };
-                    }
+                        if (Array.isArray(req.body.tag)) {
+                            arr = req.body.tag
+                            result.tag.length = 0;
+                            arr.forEach(element => {
+                                result.tag.push(element)
+                            });
+                            req.body = { tag: result.tag };
 
+                        }else  {
+                                result.tag = [];
+                                result.tag.push(req.body.tag)
+                                req.body = { tag: result.tag };
+                            }
+                    }
 
                     Product.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false })
                         .then(result => {
-                            result != null ? res.json({ status: 200, msg: 'Product data updated successfully', data: result }) :
+                            result != null ? res.json({
+                                status: 200, msg: favFlag == 1 ? 'Product added in favorite successfully'
+                                    :
+                                    favFlag == 2 ?
+                                        "Product remove from favorite successfully"
+                                        :
+                                        'Product data updated successfully'
+                            }) :
                                 res.json({ status: 300, msg: 'Something went wrong, please contact customer advisor' });
                         })
                         .catch(err => {
