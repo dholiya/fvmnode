@@ -26,20 +26,58 @@ const users = (req, res) => {
 
 const user_update = async (req, res) => {
 
-    User.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false })
-      .then(result => {
-        if (result != null && result.length != 0) {
-          res.json({ status: 200, msg: 'User data updated successfully' })
+  if (req.body.password != undefined) {
+    User.findById(req.params.id).then(result => {
+
+      if (result != null && result.length != 0) {
+        if (req.body.oldpassword != result.password) {
+          res.json({ status: 300, msg: "Incorrect old password" });
+          return;
         }
-        else
-          res.json({ status: 300, msg: 'User not found' });
-      })
+
+        User.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false })
+          .then(result => {
+            if (result != null && result.length != 0) {
+              const accessToken = jwt.sign(result.id, process.env.ACCESS_TOKEN_SECRET);
+              res.json({ status: 200, accessToken: accessToken, data: result });
+            }
+            else
+              res.json({ status: 300, msg: 'User not found' });
+          })
+          .catch(err => {
+            res.json({ status: 400, msg: 'Somthing wrong to update profile' });
+            console.log(err);
+          });
+
+      } else
+        res.json({ status: 300, msg: "No user found" });
+    })
       .catch(err => {
-        res.json({ status: 400, msg: 'Somthing wrong to update profile' });
-        console.log(err);
+        res.json({ status: 400, msg: err.message });
       });
-      
+  }else{
+    
+    User.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false })
+    .then(result => {
+      if (result != null && result.length != 0) {
+        const accessToken = jwt.sign(result.id, process.env.ACCESS_TOKEN_SECRET);
+        res.json({ status: 200, accessToken: accessToken, data: result });
+      }
+      else
+        res.json({ status: 300, msg: 'User not found' });
+    })
+    .catch(err => {
+      res.json({ status: 400, msg: 'Somthing wrong to update profile' });
+      console.log(err);
+    });
+
+  }
+
+
+
+
 }
+
 
 const user_login = (req, res) => {
 
