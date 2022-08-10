@@ -13,5 +13,6 @@ router.get('/', userController.user_login);
 
 router.delete('/', userController.user_delete);
 router.patch('/', userController.user_update_password);
+router.patch('/update/:id', userController.user_update);
 
 module.exports = router;

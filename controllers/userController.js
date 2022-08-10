@@ -23,17 +23,33 @@ const users = (req, res) => {
 }
 
 
+
+const user_update = async (req, res) => {
+
+    User.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false })
+      .then(result => {
+        if (result != null && result.length != 0) {
+          res.json({ status: 200, msg: 'User data updated successfully' })
+        }
+        else
+          res.json({ status: 300, msg: 'User not found' });
+      })
+      .catch(err => {
+        res.json({ status: 400, msg: 'Somthing wrong to update profile' });
+        console.log(err);
+      });
+      
+}
+
 const user_login = (req, res) => {
 
   User.findOne({ email: req.body.email }).then(result => {
     if (result != null && result.length != 0) {
-      
       if (req.body.password != result.password) {
         res.json({ status: 300, msg: "Wrong email or/and passowrd" });
         return;
       }
       const accessToken = jwt.sign(result.id, process.env.ACCESS_TOKEN_SECRET);
-
       res.json({ status: 200, accessToken: accessToken, data: result });
     } else
       res.json({ status: 300, msg: "No user found with give email" });
@@ -170,5 +186,6 @@ module.exports = {
   user_login,
   user_register,
   user_delete,
-  user_update_password
+  user_update_password,
+  user_update
 }
