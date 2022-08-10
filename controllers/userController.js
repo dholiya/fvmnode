@@ -30,11 +30,10 @@ const user_update = async (req, res) => {
     User.findById(req.params.id).then(result => {
 
       if (result != null && result.length != 0) {
-        if (req.body.password != result.password) {
-          res.json({ status: 300, msg: "Incorrect old password" });
-          return;
-        }
-
+        // if (req.body.password != result.password) {
+        //   res.json({ status: 300, msg: "Incorrect old password" });
+        //   return;
+        // }
         User.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false })
           .then(result => {
             if (result != null && result.length != 0) {
