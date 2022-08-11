@@ -145,7 +145,6 @@ const user_delete = (req, res) => {
 
 
 const user_sendOTP = (req, res) => {
-  console.log("sendotp");
 
   User.findOne(req.body).then(result => {
     if (result != null && result.length != 0) {
@@ -165,25 +164,38 @@ const user_sendOTP = (req, res) => {
 
 
 const user_update_password = async (req, res) => {
-  console.log("updatepassword");
+  console.log(req.body);
 
-  if (req.body.otp == OTP)
-    User.findOneAndUpdate(req.body.email, { password: req.body.password }, { useFindAndModify: false })
-      .then(result => {
-        if (result != null && result.length != 0) {
-          OTP = 000000
-          res.json({ status: 200, msg: 'Password reset successfully' })
-        }
-        else
-          res.json({ status: 300, msg: 'User not found' });
-      })
+  if (req.body.otp == OTP){
+    User.findOne({email: req.body.email}).then(result => {
+      if (result != null && result.length != 0) {
+       
+      User.findByIdAndUpdate(result.id, { password: req.body.password }, { useFindAndModify: false })
+        .then(result => {
+          console.log("updatepassword "+result );
+  
+          if (result != null && result.length != 0) {
+            OTP = 000000
+            res.json({ status: 200, msg: 'Password reset successfully' })
+          }
+          else
+            res.json({ status: 300, msg: 'User not found' });
+        })
+        .catch(err => {
+          res.json({ status: 400, msg: 'Somthing wrong to reset password please contact customer care advisor' });
+          console.log(err);
+        });
+  
+      } else
+        res.json({ status: 300, msg: "No user found with given mail: " + req.body.email });
+    })
       .catch(err => {
-        res.json({ status: 400, msg: 'Somthing wrong to reset password please contact customer care advisor' });
-        console.log(err);
+        res.json({ status: 400, msg: "Error : " + err.message });
       });
+  }
   else
-    res.json({ status: 201, msg: 'Wrong OTP' });
-
+   { res.json({ status: 201, msg: 'Wrong OTP' });
+  }
 }
 
 
